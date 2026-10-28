@@ -1,0 +1,30 @@
+{
+  "id": "section-01-generics",
+  "moduleId": "module-04-generics",
+  "order": 1,
+  "title": "Generics",
+  "slug": "generics",
+  "description": "Master TypeScript generics to write flexible, reusable code that works with any type while maintaining full type safety.",
+  "features": {
+    "hasExplanation": true,
+    "hasGame": true,
+    "hasIntroVideo": true,
+    "hasOutroVideo": true
+  },
+  "estimatedDurationMinutes": 35,
+  "prerequisites": [],
+  "keyConcepts": [
+    "type parameters",
+    "generic functions",
+    "generic interfaces",
+    "generic constraints",
+    "type inference",
+    "react generics"
+  ],
+  "codeExamples": [
+    "function identity<T>(arg: T): T { return arg; }",
+    "interface Container<T> { value: T; }",
+    "function first<T>(arr: T[]): T { return arr[0]; }",
+    "function fetch<T>(url: string): Promise<T>"
+  ]
+}

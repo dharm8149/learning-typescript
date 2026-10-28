@@ -11,6 +11,9 @@ import { OutroInterfaceMastery } from './compositions/interfaces/OutroInterfaceM
 import { IntroUnionStory } from './compositions/unions/IntroUnionStory';
 import { UnionExplainer } from './compositions/unions/UnionExplainer';
 import { OutroUnionMastery } from './compositions/unions/OutroUnionMastery';
+import { IntroGenericsStory } from './compositions/generics/IntroGenericsStory';
+import { GenericExplainer } from './compositions/generics/GenericExplainer';
+import { OutroGenericsMastery } from './compositions/generics/OutroGenericsMastery';
 
 export * from './Root';
 export * from './compositions/primitives/PrimitivesExplainer';
@@ -25,6 +28,9 @@ export * from './compositions/interfaces/OutroInterfaceMastery';
 export * from './compositions/unions/IntroUnionStory';
 export * from './compositions/unions/UnionExplainer';
 export * from './compositions/unions/OutroUnionMastery';
+export * from './compositions/generics/IntroGenericsStory';
+export * from './compositions/generics/GenericExplainer';
+export * from './compositions/generics/OutroGenericsMastery';
 export * from './components/CodeWindow';
 export * from './helpers/soundEffects';
 
@@ -41,7 +47,10 @@ export const compositionRegistry: Record<string, React.FC> = {
   OutroInterfaceMastery,
   IntroUnionStory,
   UnionExplainer,
-  OutroUnionMastery
+  OutroUnionMastery,
+  IntroGenericsStory,
+  GenericExplainer,
+  OutroGenericsMastery
 };
 
 export function getComposition(id: string): React.FC | undefined {
