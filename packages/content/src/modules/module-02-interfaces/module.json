@@ -1,0 +1,21 @@
+{
+  "id": "module-02-interfaces",
+  "order": 2,
+  "title": "Interfaces and Type Aliases",
+  "slug": "interfaces",
+  "description": "Learn the difference between interfaces and type aliases, how to extend interfaces, declaration merging, and building type hierarchies for production code.",
+  "prerequisites": ["module-01-basics"],
+  "sections": [
+    "section-01-interfaces-aliases"
+  ],
+  "estimatedDurationMinutes": 25,
+  "difficulty": "beginner",
+  "icon": "layers",
+  "learningOutcomes": [
+    "Define interfaces to name object shapes",
+    "Understand the difference between interface and type alias",
+    "Extend interfaces with 'extends' keyword",
+    "Use declaration merging for interface augmentation",
+    "Build type hierarchies for complex data models"
+  ]
+}

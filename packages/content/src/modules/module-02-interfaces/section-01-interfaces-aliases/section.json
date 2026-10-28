@@ -1,0 +1,14 @@
+{
+  "id": "section-01-interfaces-aliases",
+  "moduleId": "module-02-interfaces",
+  "order": 1,
+  "title": "Interfaces and Type Aliases",
+  "slug": "interfaces-aliases",
+  "description": "Learn the difference between interfaces and type aliases, when to use each, and how to compose powerful object shapes.",
+  "features": {
+    "hasIntroVideo": true,
+    "hasOutroVideo": true,
+    "hasGame": true
+  },
+  "keywords": ["interface", "type alias", "shape", "extends", "implements", "declaration merging"]
+}
