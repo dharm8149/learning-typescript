@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { GameConfig, GameMode } from '@ts-learn/types';
-import confetti from 'canvas-confetti';
 import {
-  Gamepad2,
-  Timer,
-  Trophy,
-  Zap,
-  RotateCcw,
-  ShieldAlert,
-  Swords,
+  Circle,
   CheckCircle2,
-  Sparkles
+  XCircle,
+  RotateCcw,
+  Timer,
+  Award
 } from 'lucide-react';
 
 interface GameTabProps {
@@ -22,11 +18,7 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
   if (!config) {
     return (
       <div className="max-w-3xl mx-auto py-20 text-center space-y-4">
-        <Gamepad2 className="w-16 h-16 text-slate-600 mx-auto animate-bounce" />
-        <h3 className="text-xl font-bold text-slate-300">Game In Development</h3>
-        <p className="text-slate-500 text-sm">
-          Interactive challenges for this section are being prepared.
-        </p>
+        <p className="text-sm text-gray-500">Exercises for this section are being prepared.</p>
       </div>
     );
   }
@@ -40,25 +32,22 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [timeLeft, setTimeLeft] = useState(currentLevel?.timeLimitSeconds || 40);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [isLevelWon, setIsLevelWon] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
 
-  // Boss Battle State
+  // Boss State
   const boss = config.bossPhase;
   const [bossHp, setBossHp] = useState(boss?.bossHealth || 100);
   const [playerHp, setPlayerHp] = useState(100);
   const [bossChallengeIndex, setBossChallengeIndex] = useState(0);
 
-  // Reset Game
   const resetGame = (mode = selectedMode, lvlIdx = currentLevelIndex) => {
     setSelectedMode(mode);
     setCurrentLevelIndex(lvlIdx);
     setCurrentItemIndex(0);
     setScore(0);
     setStreak(0);
-    setIsGameOver(false);
-    setIsLevelWon(false);
+    setIsFinished(false);
     setFeedback(null);
     setBossHp(boss?.bossHealth || 100);
     setPlayerHp(100);
@@ -66,15 +55,15 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
     setTimeLeft(config.levels[lvlIdx]?.timeLimitSeconds || 40);
   };
 
-  // Timer Effect for Time Attack
+  // Timer for time-attack mode
   useEffect(() => {
-    if (selectedMode !== 'time-attack' || isGameOver || isLevelWon) return;
+    if (selectedMode !== 'time-attack' || isFinished) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          setIsGameOver(true);
+          setIsFinished(true);
           return 0;
         }
         return prev - 1;
@@ -82,11 +71,10 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [selectedMode, isGameOver, isLevelWon]);
+  }, [selectedMode, isFinished]);
 
-  // Handle Type Match Option Selection
   const handleAnswer = (selectedType: string) => {
-    if (feedback || isGameOver || isLevelWon) return;
+    if (feedback || isFinished) return;
 
     const currentItem = currentLevel.items[currentItemIndex];
     const isCorrect = selectedType === currentItem.correctType;
@@ -99,7 +87,7 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
       setStreak(newStreak);
       setFeedback({
         isCorrect: true,
-        message: `Correct! ${currentItem.valueExplanation}`
+        message: currentItem.valueExplanation
       });
 
       setTimeout(() => {
@@ -107,34 +95,28 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
         if (currentItemIndex + 1 < currentLevel.items.length) {
           setCurrentItemIndex((prev) => prev + 1);
         } else {
-          // Completed Level!
-          setIsLevelWon(true);
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+          setIsFinished(true);
           onRewardXp(150);
           saveScore(newScore);
         }
-      }, 1200);
+      }, 1500);
     } else {
       setStreak(0);
       setFeedback({
         isCorrect: false,
-        message: `Oops! In TypeScript, '${currentItem.valueRepresentation}' belongs to '${currentItem.correctType}'. ${currentItem.valueExplanation}`
+        message: `In TypeScript, '${currentItem.valueRepresentation}' belongs to '${currentItem.correctType}'. ${currentItem.valueExplanation}`
       });
 
       if (selectedMode === 'time-attack') {
-        // Penalty in time-attack
         setTimeLeft((prev) => Math.max(0, prev - 5));
       }
 
-      setTimeout(() => {
-        setFeedback(null);
-      }, 2000);
+      setTimeout(() => setFeedback(null), 2000);
     }
   };
 
-  // Handle Boss Challenge Answer
   const handleBossAnswer = (choiceIndex: number) => {
-    if (!boss || feedback || isGameOver || isLevelWon) return;
+    if (!boss || feedback || isFinished) return;
 
     const challenge = boss.challenges[bossChallengeIndex];
     const isCorrect = choiceIndex === challenge.correctIndex;
@@ -147,14 +129,13 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
 
       setFeedback({
         isCorrect: true,
-        message: `Critical Hit! ${challenge.explanation}`
+        message: challenge.explanation
       });
 
       setTimeout(() => {
         setFeedback(null);
         if (newBossHp <= 0 || bossChallengeIndex + 1 >= boss.challenges.length) {
-          setIsLevelWon(true);
-          confetti({ particleCount: 180, spread: 100, origin: { y: 0.5 } });
+          setIsFinished(true);
           onRewardXp(300);
           saveScore(score + 500);
         } else {
@@ -166,16 +147,14 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
       setPlayerHp(newPlayerHp);
       setFeedback({
         isCorrect: false,
-        message: `Glitch attack blocked your move! ${challenge.explanation}`
+        message: challenge.explanation
       });
 
       if (newPlayerHp <= 0) {
-        setIsGameOver(true);
+        setIsFinished(true);
       }
 
-      setTimeout(() => {
-        setFeedback(null);
-      }, 2000);
+      setTimeout(() => setFeedback(null), 2000);
     }
   };
 
@@ -196,260 +175,250 @@ export const GameTab: React.FC<GameTabProps> = ({ config, onRewardXp }) => {
     ? [currentItem.correctType, ...currentItem.distractorTypes].sort()
     : [];
 
-  return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-16">
-      {/* Game Header Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4 shadow-xl">
-        <div>
-          <div className="flex items-center gap-2">
-            <Gamepad2 className="w-5 h-5 text-amber-400" />
-            <h2 className="font-bold text-lg text-white">{config.title}</h2>
-          </div>
-          <p className="text-xs text-slate-400 mt-0.5">{config.subtitle}</p>
-        </div>
+  const currentChallenge = boss ? boss.challenges[bossChallengeIndex] : null;
 
-        {/* Mode Selector */}
-        <div className="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+  return (
+    <div className="max-w-3xl mx-auto space-y-6">
+      {/* Mode Selector */}
+      <div className="flex items-center justify-between">
+        <h2 className="font-bold text-lg text-gray-900">{config.title}</h2>
+
+        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl p-1">
           <button
-            onClick={() => resetGame('practice')}
+            onClick={() => resetGame('practice', currentLevelIndex)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               selectedMode === 'practice'
                 ? 'bg-blue-600 text-white shadow'
-                : 'text-slate-400 hover:text-white'
+                : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             Practice
           </button>
           <button
-            onClick={() => resetGame('time-attack')}
+            onClick={() => resetGame('time-attack', currentLevelIndex)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
               selectedMode === 'time-attack'
-                ? 'bg-amber-600 text-white shadow'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-blue-600 text-white shadow'
+                : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             <Timer className="w-3 h-3" />
-            Time Attack
+            Timed
           </button>
           {boss && (
             <button
-              onClick={() => resetGame('boss-battle')}
+              onClick={() => resetGame('boss-battle', currentLevelIndex)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
                 selectedMode === 'boss-battle'
-                  ? 'bg-rose-600 text-white shadow'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow'
+                  : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Swords className="w-3 h-3" />
-              Boss Battle
+              Challenge
             </button>
           )}
         </div>
       </div>
 
-      {/* Level Selectors (when not in Boss Battle) */}
-      {selectedMode !== 'boss-battle' && (
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
-            Levels:
-          </span>
+      {/* Level Selector (not in challenge mode) */}
+      {selectedMode !== 'boss-battle' && config.levels.length > 1 && (
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-gray-500">Level:</span>
           {config.levels.map((lvl, idx) => (
             <button
               key={lvl.levelNumber}
               onClick={() => resetGame(selectedMode, idx)}
               className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-all ${
                 currentLevelIndex === idx
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                  ? 'bg-blue-50 text-blue-700 border-blue-200'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
               }`}
             >
-              Lvl {lvl.levelNumber}: {lvl.title.split(':')[1] || lvl.title}
+              {lvl.title.split(':')[0] || `Level ${lvl.levelNumber}`}
             </button>
           ))}
         </div>
       )}
 
-      {/* Stats HUD */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex items-center gap-3">
-          <Trophy className="w-5 h-5 text-amber-400" />
-          <div>
-            <div className="text-[10px] text-slate-400 uppercase font-mono font-semibold">Score</div>
-            <div className="text-xl font-bold font-mono text-white">{score}</div>
-          </div>
+      {/* Stats Row */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="bg-white border border-gray-200 rounded-xl p-3">
+          <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Score</div>
+          <div className="text-lg font-bold text-gray-900 font-mono">{score}</div>
         </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex items-center gap-3">
-          <Zap className="w-5 h-5 text-blue-400" />
-          <div>
-            <div className="text-[10px] text-slate-400 uppercase font-mono font-semibold">Streak Combo</div>
-            <div className="text-xl font-bold font-mono text-blue-400">{streak}x</div>
-          </div>
+        <div className="bg-white border border-gray-200 rounded-xl p-3">
+          <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Streak</div>
+          <div className="text-lg font-bold text-blue-600 font-mono">{streak}x</div>
         </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex items-center gap-3">
-          <Timer className="w-5 h-5 text-purple-400" />
-          <div>
-            <div className="text-[10px] text-slate-400 uppercase font-mono font-semibold">
-              {selectedMode === 'time-attack' ? 'Countdown' : 'Target'}
-            </div>
-            <div className="text-xl font-bold font-mono text-purple-400">
-              {selectedMode === 'time-attack' ? `${timeLeft}s` : `${currentLevel?.targetScore || 500} pts`}
-            </div>
+        <div className="bg-white border border-gray-200 rounded-xl p-3">
+          <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">
+            {selectedMode === 'time-attack' ? 'Time' : 'Progress'}
+          </div>
+          <div className="text-lg font-bold text-gray-900 font-mono">
+            {selectedMode === 'time-attack'
+              ? `${timeLeft}s`
+              : `${currentItemIndex + 1}/${currentLevel.items.length}`
+            }
           </div>
         </div>
       </div>
 
-      {/* Main Play Area */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 relative overflow-hidden shadow-2xl min-h-[380px] flex flex-col justify-center">
-        {isLevelWon ? (
-          /* Victory Screen */
-          <div className="text-center space-y-4 py-8 animate-fade-in">
-            <div className="w-16 h-16 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto border border-amber-500/40 shadow-lg">
-              <Sparkles className="w-8 h-8" />
+      {/* Main Content Area */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 min-h-[280px] flex flex-col">
+        {/* Finished / Results */}
+        {isFinished && selectedMode !== 'boss-battle' && (
+          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 py-8">
+            <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Award className="w-6 h-6" />
             </div>
-            <h3 className="text-2xl font-bold text-white">Victory! Challenge Conquered!</h3>
-            <p className="text-slate-300 text-sm max-w-md mx-auto">
-              You correctly solved the challenges with a score of{' '}
-              <span className="text-amber-400 font-mono font-bold">{score}</span> and earned +150 XP!
-            </p>
-            <div className="pt-4 flex items-center justify-center gap-3">
-              <button
-                onClick={() => resetGame(selectedMode, (currentLevelIndex + 1) % config.levels.length)}
-                className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm shadow-lg transition-all"
-              >
-                Next Challenge
-              </button>
+            <div>
+              <h3 className="font-bold text-gray-900">Exercise Complete</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Score: {score} points • Final streak: {streak}x
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              {currentLevelIndex < config.levels.length - 1 && (
+                <button
+                  onClick={() => resetGame(selectedMode, currentLevelIndex + 1)}
+                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all"
+                >
+                  Next Level
+                </button>
+              )}
               <button
                 onClick={() => resetGame()}
-                className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold flex items-center gap-1.5 transition-all"
+                className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold flex items-center gap-1.5 transition-all"
               >
-                <RotateCcw className="w-4 h-4" />
-                Play Again
+                <RotateCcw className="w-3.5 h-3.5" />
+                Retry
               </button>
             </div>
           </div>
-        ) : isGameOver ? (
-          /* Game Over Screen */
-          <div className="text-center space-y-4 py-8">
-            <div className="w-16 h-16 bg-rose-500/20 text-rose-400 rounded-full flex items-center justify-center mx-auto border border-rose-500/40">
-              <ShieldAlert className="w-8 h-8" />
-            </div>
-            <h3 className="text-2xl font-bold text-white">Time Expired!</h3>
-            <p className="text-slate-400 text-sm">
-              Don't worry! Static typing takes practice to master.
-            </p>
-            <button
-              onClick={() => resetGame()}
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg transition-all"
-            >
-              Try Again
-            </button>
-          </div>
-        ) : selectedMode === 'boss-battle' && boss ? (
-          /* Boss Battle Play Area */
-          <div className="space-y-6">
-            {/* Boss & Player HP bars */}
-            <div className="grid grid-cols-2 gap-4 pb-4 border-b border-slate-800">
+        )}
+
+        {/* Boss Battle */}
+        {selectedMode === 'boss-battle' && boss && currentChallenge && !isFinished && (
+          <div className="space-y-5">
+            {/* HP Bars */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="flex justify-between text-xs font-semibold mb-1">
-                  <span className="text-rose-400 font-bold">{boss.bossName}</span>
-                  <span className="font-mono text-rose-400">{bossHp} / {boss.bossHealth} HP</span>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="font-bold text-gray-700">{boss.bossName}</span>
+                  <span className="font-mono text-gray-500">{bossHp}/{boss.bossHealth}</span>
                 </div>
-                <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-rose-950">
+                <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-rose-600 transition-all duration-300"
+                    className="h-full bg-red-500 rounded-full transition-all"
                     style={{ width: `${(bossHp / boss.bossHealth) * 100}%` }}
                   />
                 </div>
               </div>
-
               <div>
-                <div className="flex justify-between text-xs font-semibold mb-1">
-                  <span className="text-emerald-400 font-bold">Your Health</span>
-                  <span className="font-mono text-emerald-400">{playerHp} / 100 HP</span>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="font-bold text-gray-700">Your Health</span>
+                  <span className="font-mono text-gray-500">{playerHp}/100</span>
                 </div>
-                <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-emerald-950">
+                <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-emerald-500 transition-all duration-300"
+                    className="h-full bg-emerald-500 rounded-full transition-all"
                     style={{ width: `${playerHp}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            {/* Boss Challenge Prompt */}
+            {/* Question */}
             <div className="space-y-3">
-              <p className="text-slate-200 text-sm font-medium">
-                {boss.challenges[bossChallengeIndex]?.prompt}
-              </p>
-              <pre className="bg-slate-950 p-4 rounded-xl border border-rose-500/30 text-rose-300 font-mono text-sm">
-                <code>{boss.challenges[bossChallengeIndex]?.brokenCode}</code>
+              <p className="text-sm font-medium text-gray-900">{currentChallenge.prompt}</p>
+              <pre className="bg-gray-950 p-3 rounded-lg text-rose-300 font-mono text-xs border border-gray-800">
+                <code>{currentChallenge.brokenCode}</code>
               </pre>
             </div>
 
-            {/* Attack Options */}
+            {/* Answer Options */}
             <div className="space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
-                Select Type Fix to Strike Boss:
-              </div>
-              <div className="grid grid-cols-1 gap-2.5">
-                {boss.challenges[bossChallengeIndex]?.fixedCodeOptions.map((opt, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleBossAnswer(i)}
-                    className="p-3 text-left rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-blue-500 text-slate-200 font-mono text-xs transition-all flex items-center justify-between group"
-                  >
-                    <span>{opt}</span>
-                    <Swords className="w-4 h-4 text-slate-600 group-hover:text-amber-400" />
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* Standard Type Matcher Play Area */
-          <div className="space-y-8">
-            <div className="text-center space-y-2">
-              <span className="text-xs uppercase font-mono tracking-wider text-slate-400">
-                Item {currentItemIndex + 1} of {currentLevel.items.length}
-              </span>
-              <div className="text-sm font-medium text-slate-300">
-                What is the TypeScript primitive type for this runtime value?
-              </div>
-              <div className="inline-block py-4 px-8 rounded-2xl bg-slate-950 border-2 border-blue-500/40 shadow-2xl shadow-blue-900/30 font-mono text-3xl font-bold text-blue-300 tracking-wide mt-2">
-                {currentItem?.valueRepresentation}
-              </div>
-            </div>
-
-            {/* Choice Buttons */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
-              {typeOptions.map((t) => (
+              {currentChallenge.fixedCodeOptions.map((opt, i) => (
                 <button
-                  key={t}
-                  onClick={() => handleAnswer(t)}
-                  className="py-3.5 px-4 rounded-xl bg-slate-800/90 hover:bg-blue-600 border border-slate-700 hover:border-blue-400 text-slate-200 hover:text-white font-mono font-bold text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"
+                  key={i}
+                  onClick={() => handleBossAnswer(i)}
+                  disabled={!!feedback}
+                  className="w-full p-3 text-left rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-mono text-xs transition-all disabled:opacity-50"
                 >
-                  <span>{t}</span>
+                  {opt}
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* Live Answer Feedback Banner */}
+        {/* Boss Battle Finished */}
+        {selectedMode === 'boss-battle' && boss && isFinished && (
+          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 py-8">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              playerHp > 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'
+            }`}>
+              {playerHp > 0 ? <Award className="w-6 h-6" /> : <XCircle className="w-6 h-6" />}
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-900">
+                {playerHp > 0 ? 'Challenge Complete' : 'Challenge Failed'}
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Final score: {score}
+              </p>
+            </div>
+            <button
+              onClick={() => resetGame('boss-battle', currentLevelIndex)}
+              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              Retry Challenge
+            </button>
+          </div>
+        )}
+
+        {/* Standard Question */}
+        {currentItem && !isFinished && selectedMode !== 'boss-battle' && (
+          <div className="space-y-6">
+            <div className="text-center space-y-3">
+              <span className="text-xs text-gray-500 font-mono">
+                Question {currentItemIndex + 1} of {currentLevel.items.length}
+              </span>
+              <p className="text-sm text-gray-700">
+                What is the TypeScript primitive type for this value?
+              </p>
+              <div className="inline-block px-8 py-3 rounded-xl bg-gray-950 font-mono text-xl font-bold text-blue-300">
+                {currentItem.valueRepresentation}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {typeOptions.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => handleAnswer(t)}
+                  disabled={!!feedback}
+                  className="py-3 px-4 rounded-xl bg-gray-50 hover:bg-blue-600 hover:text-white border border-gray-200 hover:border-blue-500 text-gray-800 font-mono font-bold text-sm transition-all disabled:opacity-50"
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Feedback Banner */}
         {feedback && (
-          <div
-            className={`mt-6 p-4 rounded-xl border flex items-center gap-3 text-sm animate-fade-in ${
-              feedback.isCorrect
-                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
-                : 'bg-rose-950/40 border-rose-500/40 text-rose-200'
-            }`}
-          >
+          <div className={`mt-4 p-3 rounded-lg flex items-center gap-2.5 text-xs ${
+            feedback.isCorrect
+              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+              : 'bg-red-50 text-red-700 border border-red-200'
+          }`}>
             {feedback.isCorrect ? (
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
             ) : (
-              <ShieldAlert className="w-5 h-5 text-rose-400 shrink-0" />
+              <XCircle className="w-4 h-4 shrink-0" />
             )}
             <span>{feedback.message}</span>
           </div>
