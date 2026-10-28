@@ -114,7 +114,7 @@ export const IntroInterfaceStory: React.FC = () => {
             <div style={{ textAlign: 'center' }}>
               <span style={{ color: '#ef4444', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Act 2 • The Bugs</span>
               <h1 style={{ fontSize: '32px', fontWeight: 900, margin: '6px 0', background: 'linear-gradient(to right, #f87171, #fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>No Interfaces = No One Knows What Shape to Expect</h1>
-              <p style={{ fontSize: '15px', color: '#cbd5e1', margin: 0 }}>A function expects {name, id}, receives {username, userId}. No one notices until production crashes.</p>
+              <p style={{ fontSize: '15px', color: '#cbd5e1', margin: 0 }}>A function expects &#123;name, id&#125;, receives &#123;username, userId&#125;. No one notices until production crashes.</p>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr', alignItems: 'center', backgroundColor: '#0f172a', border: '2px solid rgba(239, 68, 68, 0.4)', borderRadius: '24px', padding: '28px', boxShadow: '0 25px 40px rgba(239, 68, 68, 0.2)' }}>
               <div style={{ textAlign: 'center', padding: '20px', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px dashed #ef4444', borderRadius: '16px' }}>

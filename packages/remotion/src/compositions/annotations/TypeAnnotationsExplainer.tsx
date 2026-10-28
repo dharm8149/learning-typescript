@@ -38,13 +38,13 @@ const items = [1, 2, 3];           // inferred: number[]`;
     slideSubtitle = "Parameters have no initial value — TypeScript cannot guess what you expect. Without annotations, they become 'any'.";
     codeSnippet = `// ❌ BAD: No annotations → both are 'any'
 function greet(name, age) &#123;
-  return \`Hi ${name}, age ${age}\`;
-}
+  return &#96;Hi &#123;&#123;name&#125;&#125;, age &#123;&#123;age&#125;&#125;&#96;;
+&#125;
 
 // ✅ GOOD: Explicit parameter types
 function greet(name: string, age: number): string &#123;
-  return \`Hi ${name}, age ${age}\`;
-}`;
+  return &#96;Hi &#123;&#123;name&#125;&#125;, age &#123;&#123;age&#125;&#125;&#96;;
+&#125;`;
     highlightLine = 6;
     hasError = false;
   } else if (phase === 2) {

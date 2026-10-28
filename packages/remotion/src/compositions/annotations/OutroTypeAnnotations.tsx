@@ -33,6 +33,7 @@ function createUser(
 }`;
   let highlightLine = 1;
   let hasError = false;
+  let errorMessage = '';
 
   if (sceneIndex === 1) {
     storyBadge = "🏢 TypeScript's Own Source Code";

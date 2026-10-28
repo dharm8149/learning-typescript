@@ -4,14 +4,10 @@ import { level2Medium } from './levels/level-2-medium';
 import { bossLevelUnions } from './levels/level-3-boss';
 
 export const unionsGameConfig: GameConfig = {
-  id: 'section-01-unions-intersections',
+  gameId: 'section-01-unions-intersections',
   title: 'Unions & Intersections Arcade',
-  description: 'Master the art of combining and narrowing types in TypeScript.',
-  levels: [level1Easy, level2Medium, bossLevelUnions],
-  totalLevels: 3,
-  settings: {
-    enableTimer: true,
-    enableHints: true,
-    showExplanation: true
-  }
+  subtitle: 'Master the art of combining and narrowing types in TypeScript',
+  modes: ['practice', 'time-attack', 'boss-battle'],
+  levels: [level1Easy, level2Medium],
+  bossPhase: bossLevelUnions
 };

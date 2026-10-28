@@ -5,19 +5,17 @@ export const bossLevelAdvanced: BossPhase = {
   bossHealth: 100,
   timeLimitSeconds: 60,
   attackIntervalMs: 4000,
-  attackPatterns: [
+  challenges: [
     {
-      id: "a1",
-      title: "Exhaustive Type Guard",
-      description: "Build an exhaustive type guard that catches missing cases at compile time.",
-      code: `// Discriminated union for API actions
+      prompt: "Build an exhaustive type guard that catches missing cases at compile time.",
+      brokenCode: `// Discriminated union for API actions
 type ApiAction =
-  | &#123; type: 'fetch'; url: string &#125;
-  | &#123; type: 'submit'; data: FormData &#125;
-  | &#123; type: 'cancel'; requestId: string &#125;;
+  | { type: 'fetch'; url: string }
+  | { type: 'submit'; data: FormData }
+  | { type: 'cancel'; requestId: string };
 
-function handleAction(action: ApiAction): string &#123;
-  switch (action.type) &#123;
+function handleAction(action: ApiAction): string {
+  switch (action.type) {
     case 'fetch':
       return \`Fetching: \${action.url}\`;
     case 'submit':
@@ -27,66 +25,64 @@ function handleAction(action: ApiAction): string &#123;
       // Exhaustive check — action should be 'never'
       const _exhaustive: never = action;
       return \`Unhandled action: \${_exhaustive}\`;
-  &#125;
-&#125;
+  }
+}
 
 // If we add a new action type, TypeScript will ERROR
 // on the exhaustive check unless we handle it!`,
-      correctType: "const _exhaustive: never = action — errors if any action type is unhandled",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "const _exhaustive: never = action — errors if any action type is unhandled",
         "No exhaustive check needed",
         "const _exhaustive: string = action",
         "const _exhaustive: never = action — always compiles"
       ],
+      correctIndex: 0,
       explanation: "The 'never' type assertion errors when action could be a real type. If a new ApiAction is added but not handled, TypeScript catches it."
     },
     {
-      id: "a2",
-      title: "Deep Readonly",
-      description: "Build a recursive Readonly that makes nested objects readonly too.",
-      code: `// Recursive DeepReadonly
-type DeepReadonly<T> = &#123;
+      prompt: "Build a recursive Readonly that makes nested objects readonly too.",
+      brokenCode: `// Recursive DeepReadonly
+type DeepReadonly<T> = {
   readonly [K in keyof T]:
     T[K] extends object
       ? DeepReadonly<T[K]>
       : T[K];
-&#125;;
+};
 
-interface Config &#123;
-  server: &#123;
+interface Config {
+  server: {
     host: string;
     port: number;
-    tls: &#123;
+    tls: {
       enabled: boolean;
       cert: string;
-    &#125;;
-  &#125;;
-&#125;;
+    };
+  };
+};
 
-const config: DeepReadonly<Config> = &#123;
-  server: &#123;
+const config: DeepReadonly<Config> = {
+  server: {
     host: 'localhost',
     port: 3000,
-    tls: &#123; enabled: true, cert: 'cert.pem' &#125;
-  &#125;
-&#125;;
+    tls: { enabled: true, cert: 'cert.pem' }
+  }
+};
 
 // All properties are readonly, even nested ones!
 config.server.host = 'newhost'; // ❌ Error!
 config.server.tls.enabled = false; // ❌ Error!`,
-      correctType: "DeepReadonly recursively applies readonly to all nested objects",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "DeepReadonly recursively applies readonly to all nested objects",
         "Only top-level properties are readonly",
         "DeepReadonly doesn't work with interfaces",
         "Only primitive properties are readonly"
       ],
+      correctIndex: 0,
       explanation: "The mapped type with conditional recursion applies readonly to every level. T[K] extends object → DeepReadonly<T[K]>, otherwise T[K] with readonly."
     },
     {
-      id: "a3",
-      title: "Final Boss — Type-Level Programming",
-      description: "Build complex type-level transformations using all advanced features.",
-      code: `// Extract all function parameter types
+      prompt: "Build complex type-level transformations using all advanced features.",
+      brokenCode: `// Extract all function parameter types
 type FunctionParams<T> = T extends (...args: infer P) => any ? P : never;
 
 // Extract all array element types
@@ -97,7 +93,7 @@ type Flatten<T extends any[]> = T extends [infer First, ...infer Rest]
   : [];
 
 // Template literal type for route params
-type Route<T extends string> = T extends \`/\${infer Segment}/...\`
+type Route<T extends string> = T extends \`/ \${infer Segment}/...\`
   ? Segment extends \`:\${infer Param}\`
     ? Param
     : never
@@ -114,12 +110,13 @@ type RouteParam = Route<'/users/:id/posts/:postId'>;
 // RouteParam = 'id' | 'postId' (extracted via template types)
 
 // This is type-level programming — TypeScript as a computation engine!`,
-      correctType: "TypeScript as a computation engine — types compute at compile time",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "TypeScript as a computation engine — types compute at compile time",
         "TypeScript only checks types, doesn't compute",
         "These patterns don't work in TypeScript",
         "Only FunctionParams works, others error"
       ],
+      correctIndex: 0,
       explanation: "TypeScript's type system is Turing-complete. Conditional types, infer, and template literal types let you write type-level programs that compute at compile time."
     }
   ]

@@ -116,7 +116,7 @@ export const IntroUtilityStory: React.FC = () => {
             <div style={{ textAlign: 'center' }}>
               <span style={{ color: '#10b981', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Act 4 • The Type Factory in Action</span>
               <h1 style={{ fontSize: '32px', fontWeight: 900, margin: '6px 0', color: '#ffffff' }}>One Base Type — <span style={{ color: '#10b981' }}>Transform</span> — Any Variation</h1>
-              <p style={{ fontSize: '15px', color: '#cbd5e1', margin: 0 }}>Partial<T> makes all optional. Pick<T, K> selects properties. Omit<T, K> removes them. Record<K, V> creates object types.</p>
+              <p style={{ fontSize: '15px', color: '#cbd5e1', margin: 0 }}>Partial&lt;T&gt; makes all optional. Pick&lt;T, K&gt; selects properties. Omit&lt;T, K&gt; removes them. Record&lt;K, V&gt; creates object types.</p>
             </div>
             <div style={{ backgroundColor: '#0f172a', border: '2px solid #10b981', borderRadius: '24px', padding: '24px 28px', fontFamily: '"Fira Code", monospace', fontSize: '17px', color: '#e2e8f0', lineHeight: 1.8, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.25)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', paddingBottom: '12px', marginBottom: '14px', fontSize: '13px' }}>
@@ -141,7 +141,7 @@ export const IntroUtilityStory: React.FC = () => {
               <div style={{ color: '#94a3b8', marginBottom: '8px' }}>// Before: 20 manual type definitions</div>
               <div style={{ color: '#64748b' }}>UserCreate, UserUpdate, UserPublic... <span style={{ color: '#64748b' }}>20 files</span></div>
               <div style={{ marginTop: '12px', color: '#94a3b8' }}>// After: Type factory with utility types</div>
-              <div style={{ color: '#e2e8f0' }}>Partial<User>, Pick<User, K>, Omit<User, 'password'> <span style={{ color: '#10b981' }}>✅</span></div>
+              <div style={{ color: '#e2e8f0' }}>{`Partial<User>, Pick<User, K>, Omit<User, 'password'> `}<span style={{ color: '#10b981' }}>✅</span></div>
             </div>
           </div>
         )}

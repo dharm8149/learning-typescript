@@ -376,7 +376,7 @@ export const IntroTypeAnnotations: React.FC = () => {
                 <div style={{ color: '#10b981', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>✅ Do This</div>
                 <div style={{ fontFamily: 'monospace', fontSize: '14px', color: '#e2e8f0', lineHeight: 1.6 }}>
                   <span style={{ color: '#38bdf8' }}>function</span> greet(name: <span style={{ color: '#34d399' }}>string</span>): <span style={{ color: '#34d399' }}>string</span> &#123;<br/>
-                  &nbsp;&nbsp;<span style={{ color: '#f43f5e' }}>return</span> `Hi, ${name}`;<br/>
+                  &nbsp;&nbsp;<span style={{ color: '#f43f5e' }}>return</span> &#96;Hi, &#123;&#123;name&#125;&#125;&#96;;<br/>
                   &#125;
                 </div>
               </div>

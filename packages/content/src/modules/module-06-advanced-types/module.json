@@ -4,13 +4,14 @@
   "title": "Advanced Types",
   "slug": "advanced-types",
   "description": "Master TypeScript's advanced type system features: type guards, conditional types, template literal types, and more.",
+  "icon": "zap",
+  "badge": "TS-Apprentice",
   "prerequisites": ["module-05-utility-types"],
   "sections": [
     "section-01-advanced-types"
   ],
   "estimatedDurationMinutes": 40,
   "difficulty": "advanced",
-  "icon": "zap",
   "learningOutcomes": [
     "Understand type narrowing and type guards",
     "Use the never and unknown types",

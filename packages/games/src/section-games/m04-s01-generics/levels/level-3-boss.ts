@@ -5,12 +5,10 @@ export const bossLevelGenerics: BossPhase = {
   bossHealth: 100,
   timeLimitSeconds: 60,
   attackIntervalMs: 4000,
-  attackPatterns: [
+  challenges: [
     {
-      id: "b1",
-      title: "Generic API Wrapper",
-      description: "Build a type-safe API fetch function using generics.",
-      code: `// Build a type-safe fetch function
+      prompt: "Build a type-safe API fetch function using generics.",
+      brokenCode: `// Build a type-safe fetch function
 async function apiFetch<T>(url: string, options?: RequestInit): Promise<___> {
   const response = await fetch(url, options);
   const data = await response.json();
@@ -23,19 +21,18 @@ const user = await apiFetch<User>('/api/user');
 
 const posts = await apiFetch<Post[]>('/api/posts');
 // posts is Post[] type ✅`,
-      correctType: "Promise<T>",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "Promise<T>",
         "Promise<any>",
         "Promise<unknown>",
         "T (not wrapped in Promise)"
       ],
+      correctIndex: 0,
       explanation: "The function returns Promise<T> so the caller gets the specific type they requested."
     },
     {
-      id: "b2",
-      title: "Generic Container Class",
-      description: "Build a type-safe container that stores any value.",
-      code: `class Container<T> {
+      prompt: "Build a type-safe container that stores any value.",
+      brokenCode: `class Container<T> {
   private value: T;
   
   constructor(value: T) {
@@ -50,19 +47,18 @@ const posts = await apiFetch<Post[]>('/api/posts');
 const c = new Container(42);
 const str = c.map(x => x.toString());
 // str is Container<string> ✅`,
-      correctType: "U",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "U",
         "T",
         "T & U",
         "any"
       ],
+      correctIndex: 0,
       explanation: "map transforms T into U, so the returned Container should be Container<U>."
     },
     {
-      id: "b3",
-      title: "Final Boss — Generic Constraints",
-      description: "Build a function that works only with objects that have specific properties.",
-      code: `// Build a function that extracts a property safely
+      prompt: "Build a function that works only with objects that have specific properties.",
+      brokenCode: `// Build a function that extracts a property safely
 function extractField<T extends { id: string }, K extends keyof T>(
   obj: T, 
   key: K
@@ -85,12 +81,13 @@ extractField(u, 'age');  // number
 
 // This should ERROR:
 extractField(u, 'email'); // ❌`,
-      correctType: "T[K]",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "T[K]",
         "string",
         "unknown",
         "T"
       ],
+      correctIndex: 0,
       explanation: "T[K] means 'the type of property K on object T'. It's the most precise return type."
     }
   ]

@@ -4,13 +4,14 @@
   "title": "Utility Types",
   "slug": "utility-types",
   "description": "Learn TypeScript's built-in utility types — Partial, Required, Pick, Record, and more — to transform types efficiently.",
+  "icon": "wrench",
+  "badge": "TS-Apprentice",
   "prerequisites": ["module-04-generics"],
   "sections": [
     "section-01-utility-types"
   ],
   "estimatedDurationMinutes": 35,
   "difficulty": "intermediate",
-  "icon": "wrench",
   "learningOutcomes": [
     "Understand why utility types exist",
     "Use Partial<T> and Required<T>",

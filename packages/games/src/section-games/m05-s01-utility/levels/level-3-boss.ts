@@ -5,12 +5,10 @@ export const bossLevelUtility: BossPhase = {
   bossHealth: 100,
   timeLimitSeconds: 60,
   attackIntervalMs: 4000,
-  attackPatterns: [
+  challenges: [
     {
-      id: "u1",
-      title: "API Response Transform",
-      description: "Build a type-safe API response type using utility types.",
-      code: `// Original API response
+      prompt: "Build a type-safe API response type using utility types.",
+      brokenCode: `// Original API response
 interface ApiResponse {
   data: {
     id: string;
@@ -30,19 +28,18 @@ type SafeApi = Omit<ApiResponse, 'data'> & {
   data?: Omit<ApiResponse['data'], 'password'>;
   status?: number;
 };`,
-      correctType: "Omit<ApiResponse, 'data'> & { data?: Omit<ApiResponse['data'], 'password'>; status?: number }",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "Omit<ApiResponse, 'data'> & { data?: Omit<ApiResponse['data'], 'password'>; status?: number }",
         "Partial<ApiResponse>",
         "Pick<ApiResponse, 'status' | 'message'>",
         "Required<ApiResponse>"
       ],
+      correctIndex: 0,
       explanation: "Omit removes data, then we add back a safe version without password. Status becomes optional for error cases."
     },
     {
-      id: "u2",
-      title: "Dynamic Object Factory",
-      description: "Build a Record-based object factory for a configuration system.",
-      code: `// Environment types
+      prompt: "Build a Record-based object factory for a configuration system.",
+      brokenCode: `// Environment types
 type Environment = 'dev' | 'staging' | 'prod';
 
 // Config types
@@ -68,19 +65,18 @@ const configs: ConfigMap = {
 };
 
 // What does ConfigMap expand to?`,
-      correctType: "{ dev: DevConfig; staging: DevConfig; prod: ProdConfig }",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "{ dev: DevConfig; staging: DevConfig; prod: ProdConfig }",
         "{ [key: string]: any }",
         "{ dev?: DevConfig; staging?: DevConfig; prod?: ProdConfig }",
         "Record<string, DevConfig | ProdConfig>"
       ],
+      correctIndex: 0,
       explanation: "Record<Environment, ...> creates exactly { dev: ...; staging: ...; prod: ... } with the specified value type."
     },
     {
-      id: "u3",
-      title: "Final Boss — Composing Utilities",
-      description: "Build a complex type by composing multiple utility types.",
-      code: `interface User {
+      prompt: "Build a complex type by composing multiple utility types.",
+      brokenCode: `interface User {
   id: string;
   name: string;
   email: string;
@@ -103,12 +99,13 @@ type UserUpdate = Partial<Omit<User, 'password'>>;
 type UserPublic = Required<Pick<User, 'id' | 'name' | 'email'>>;
 
 // What are the final types?`,
-      correctType: "UserUpdate = { id?: string; name?: string; email?: string; age?: number; role?: 'admin' | 'user'; createdAt?: string; updatedAt?: string } | UserPublic = { id: string; name: string; email: string }",
-      distractorTypes: [
+      fixedCodeOptions: [
+        "UserUpdate = { id?: string; name?: string; email?: string; age?: number; role?: 'admin' | 'user'; createdAt?: string; updatedAt?: string } | UserPublic = { id: string; name: string; email: string }",
         "UserUpdate = { password?: string }; UserPublic = { id: string }",
         "UserUpdate = Required<User>; UserPublic = Pick<User, 'id' | 'name' | 'email'>",
         "UserUpdate = Omit<User, 'password'>; UserPublic = User"
       ],
+      correctIndex: 0,
       explanation: "Omit removes password first, then Partial makes all remaining fields optional. Pick selects 3 fields, then Required makes them all mandatory."
     }
   ]

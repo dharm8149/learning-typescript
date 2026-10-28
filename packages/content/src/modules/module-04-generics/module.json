@@ -4,13 +4,14 @@
   "title": "Generics",
   "slug": "generics",
   "description": "Learn to write flexible, reusable code that works with any type using TypeScript's generic type parameters.",
+  "icon": "cpu",
+  "badge": "TS-Apprentice",
   "prerequisites": ["module-03-unions-intersections"],
   "sections": [
     "section-01-generics"
   ],
   "estimatedDurationMinutes": 35,
   "difficulty": "intermediate",
-  "icon": "cpu",
   "learningOutcomes": [
     "Understand why generics are needed",
     "Write generic functions with type parameters",

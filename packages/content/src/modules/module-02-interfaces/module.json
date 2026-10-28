@@ -4,13 +4,14 @@
   "title": "Interfaces and Type Aliases",
   "slug": "interfaces",
   "description": "Learn the difference between interfaces and type aliases, how to extend interfaces, declaration merging, and building type hierarchies for production code.",
+  "icon": "layers",
+  "badge": "TS-Apprentice",
   "prerequisites": ["module-01-basics"],
   "sections": [
     "section-01-interfaces-aliases"
   ],
   "estimatedDurationMinutes": 25,
   "difficulty": "beginner",
-  "icon": "layers",
   "learningOutcomes": [
     "Define interfaces to name object shapes",
     "Understand the difference between interface and type alias",

@@ -9,12 +9,7 @@ export const level2Medium: GameLevel = {
   items: [
     {
       id: "m1",
-      valueRepresentation: `type IsArray<T> = T extends any[] ? true : false;
-
-type A = IsArray<string[]>;
-type B = IsArray<string>;
-
-// What are A and B?`,
+      valueRepresentation: "type IsArray<T> = T extends any[] ? true : false;\n\ntype A = IsArray<string[]>;\ntype B = IsArray<string>;\n\n// What are A and B?",
       valueExplanation: "T extends any[] ? true : false — if T is an array, result is true. string[] extends any[], so A = true. string does not, so B = false.",
       correctType: "A = true, B = false",
       distractorTypes: [
@@ -25,12 +20,7 @@ type B = IsArray<string>;
     },
     {
       id: "m2",
-      valueRepresentation: `type UnpackPromise<T> = T extends Promise<infer U> ? U : T;
-
-type A = UnpackPromise<Promise<string>>;
-type B = UnpackPromise<number>;
-
-// What are A and B?`,
+      valueRepresentation: "type UnpackPromise<T> = T extends Promise<infer U> ? U : T;\n\ntype A = UnpackPromise<Promise<string>>;\ntype B = UnpackPromise<number>;\n\n// What are A and B?",
       valueExplanation: "infer U extracts the inner type. Promise<string> → U = string → A = string. number doesn't extend Promise → B = number.",
       correctType: "A = string, B = number",
       distractorTypes: [
@@ -41,13 +31,7 @@ type B = UnpackPromise<number>;
     },
     {
       id: "m3",
-      valueRepresentation: `type CamelCase<S extends string> = 
-  S extends `${infer First}-${infer Rest}`
-    ? `${First}${Capitalize<Rest>}`
-    : S;
-
-type Result = CamelCase<'hello-world'>;
-// What is Result?`,
+      valueRepresentation: "type CamelCase<S extends string> = \n  S extends string with hyphen\n    ? capitalize the rest\n    : S;\n\ntype Result = CamelCase<'hello-world'>;\n// What is Result?",
       valueExplanation: "Template literal types match 'hello-world'. First = 'hello', Rest = 'world'. Capitalize<Rest> = 'World'. Result = 'helloWorld'.",
       correctType: "'helloWorld'",
       distractorTypes: [
@@ -58,12 +42,7 @@ type Result = CamelCase<'hello-world'>;
     },
     {
       id: "m4",
-      valueRepresentation: `type First<T extends any[]> = T extends [infer First, ...any[]] ? First : never;
-
-type A = First<[1, 2, 3]>;
-type B = First<[]>;
-
-// What are A and B?`,
+      valueRepresentation: "type First<T extends any[]> = T extends array with elements ? first_element : never;\n\ntype A = First<[1, 2, 3]>;\ntype B = First<[]>;\n\n// What are A and B?",
       valueExplanation: "[infer First, ...any[]] extracts the first element. [1, 2, 3] → First = 1 → A = 1. [] doesn't match → B = never.",
       correctType: "A = 1, B = never",
       distractorTypes: [
@@ -74,12 +53,7 @@ type B = First<[]>;
     },
     {
       id: "m5",
-      valueRepresentation: `type Events = 'click' | 'hover' | 'scroll';
-type EventHandlers = &#123;
-  [K in Events]: () => void;
-&#125;;
-
-// What does EventHandlers look like?`,
+      valueRepresentation: "type Events = 'click' | 'hover' | 'scroll';\ntype EventHandlers = {\n  [K in Events]: () => void;\n};\n\n// What does EventHandlers look like?",
       valueExplanation: "Mapped type iterates over each Events member. Creates { click: () => void; hover: () => void; scroll: () => void }. This is keyof iteration.",
       correctType: "{ click: () => void; hover: () => void; scroll: () => void }",
       distractorTypes: [

@@ -4,13 +4,14 @@
   "title": "Unions and Intersections",
   "slug": "unions-intersections",
   "description": "Learn to combine types using union (|) and intersection (&) operators — the two most powerful type composition tools in TypeScript.",
+  "icon": "git-merge",
+  "badge": "TS-Apprentice",
   "prerequisites": ["module-02-interfaces"],
   "sections": [
     "section-01-unions-intersections"
   ],
   "estimatedDurationMinutes": 30,
   "difficulty": "intermediate",
-  "icon": "git-merge",
   "learningOutcomes": [
     "Define and use union types with the | operator",
     "Understand intersection types with the & operator",
