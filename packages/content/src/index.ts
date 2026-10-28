@@ -46,14 +46,23 @@ import {
   utilityTypesOutroVideo,
   utilityTypesVideoConfig
 } from './modules/module-05-utility-types/section-01-utility-types/video-config';
+import module6Meta from './modules/module-06-advanced-types/module.json';
+import section7Meta from './modules/module-06-advanced-types/section-01-advanced-types/section.json';
+import { advancedTypesExplanation } from './modules/module-06-advanced-types/section-01-advanced-types/explanation';
+import {
+  advancedTypesIntroVideo,
+  advancedTypesOutroVideo,
+  advancedTypesVideoConfig
+} from './modules/module-06-advanced-types/section-01-advanced-types/video-config';
 
 // Modules registry
 export const modulesList: ModuleMetadata[] = [
-  module1Meta as ModuleMetadata,
-  module2Meta as ModuleMetadata,
-  module3Meta as ModuleMetadata,
-  module4Meta as ModuleMetadata,
-  module5Meta as ModuleMetadata
+  module1Meta,
+  module2Meta,
+  module3Meta,
+  module4Meta,
+  module5Meta,
+  module6Meta
 ];
 
 // Content registry keyed by "sectionId"
@@ -141,6 +150,20 @@ export const sectionContentRegistry: Record<string, SectionContent> = {
     outroVideo: utilityTypesOutroVideo,
     explanation: utilityTypesExplanation,
     videoConfig: utilityTypesVideoConfig
+  },
+  'section-01-advanced-types': {
+    meta: {
+      ...section7Meta,
+      features: {
+        ...section7Meta.features,
+        hasIntroVideo: true,
+        hasOutroVideo: true
+      }
+    } as any,
+    introVideo: advancedTypesIntroVideo,
+    outroVideo: advancedTypesOutroVideo,
+    explanation: advancedTypesExplanation,
+    videoConfig: advancedTypesVideoConfig
   }
 };
 

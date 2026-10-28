@@ -5,6 +5,7 @@ import { interfacesGameConfig } from './section-games/m02-s01-interfaces/config'
 import { unionsGameConfig } from './section-games/m03-s01-unions/config';
 import { genericsGameConfig } from './section-games/m04-s01-generics/config';
 import { utilityTypesGameConfig } from './section-games/m05-s01-utility/config';
+import { advancedTypesGameConfig } from './section-games/m06-s01-advanced/config';
 
 // Dynamic map of games by section ID
 export const gameRegistry: Record<string, GameConfig> = {
@@ -13,7 +14,8 @@ export const gameRegistry: Record<string, GameConfig> = {
   'section-01-interfaces-aliases': interfacesGameConfig,
   'section-01-unions-intersections': unionsGameConfig,
   'section-01-generics': genericsGameConfig,
-  'section-01-utility-types': utilityTypesGameConfig
+  'section-01-utility-types': utilityTypesGameConfig,
+  'section-01-advanced-types': advancedTypesGameConfig
 };
 
 export function getGameForSection(sectionId: string): GameConfig | undefined {
@@ -26,3 +28,4 @@ export * from './section-games/m02-s01-interfaces/config';
 export * from './section-games/m03-s01-unions/config';
 export * from './section-games/m04-s01-generics/config';
 export * from './section-games/m05-s01-utility/config';
+export * from './section-games/m06-s01-advanced/config';

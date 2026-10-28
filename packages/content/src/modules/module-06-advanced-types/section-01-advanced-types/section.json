@@ -1,0 +1,35 @@
+{
+  "id": "section-01-advanced-types",
+  "moduleId": "module-06-advanced-types",
+  "order": 1,
+  "title": "Advanced Types",
+  "slug": "advanced-types",
+  "description": "Master TypeScript's advanced type system: type guards, conditional types, template literals, and discriminated unions.",
+  "features": {
+    "hasExplanation": true,
+    "hasGame": true,
+    "hasIntroVideo": true,
+    "hasOutroVideo": true
+  },
+  "estimatedDurationMinutes": 40,
+  "prerequisites": [],
+  "keyConcepts": [
+    "Type narrowing",
+    "Type guards",
+    "Type predicates",
+    "never type",
+    "unknown type",
+    "conditional types",
+    "template literal types",
+    "discriminated unions",
+    "exhaustive checking"
+  ],
+  "codeExamples": [
+    "function isString(val: unknown): val is string",
+    "type IsArray<T> = T extends any[] ? true : false",
+    "type Capitalize<S extends string>",
+    "type UnionToIntersection<U>",
+    "type ExhaustiveCheck = never",
+    "type DiscriminatedUnion = { type: 'a'; a: number } | { type: 'b'; b: string }"
+  ]
+}

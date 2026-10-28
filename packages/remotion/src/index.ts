@@ -17,6 +17,9 @@ import { OutroGenericsMastery } from './compositions/generics/OutroGenericsMaste
 import { IntroUtilityStory } from './compositions/utility/IntroUtilityStory';
 import { UtilityExplainer } from './compositions/utility/UtilityExplainer';
 import { OutroUtilityMastery } from './compositions/utility/OutroUtilityMastery';
+import { IntroAdvancedStory } from './compositions/advanced/IntroAdvancedStory';
+import { AdvancedExplainer } from './compositions/advanced/AdvancedExplainer';
+import { OutroAdvancedMastery } from './compositions/advanced/OutroAdvancedMastery';
 
 export * from './Root';
 export * from './compositions/primitives/PrimitivesExplainer';
@@ -37,6 +40,9 @@ export * from './compositions/generics/OutroGenericsMastery';
 export * from './compositions/utility/IntroUtilityStory';
 export * from './compositions/utility/UtilityExplainer';
 export * from './compositions/utility/OutroUtilityMastery';
+export * from './compositions/advanced/IntroAdvancedStory';
+export * from './compositions/advanced/AdvancedExplainer';
+export * from './compositions/advanced/OutroAdvancedMastery';
 export * from './components/CodeWindow';
 export * from './helpers/soundEffects';
 
