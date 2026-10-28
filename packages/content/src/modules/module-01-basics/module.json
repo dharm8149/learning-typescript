@@ -1,0 +1,8 @@
+{
+  "id": "module-01-basics",
+  "order": 1,
+  "title": "Module 1: Foundations of the Type System",
+  "description": "Master TypeScript's fundamental building blocks: primitive types, type annotations vs inference, and literal types.",
+  "icon": "Binary",
+  "badge": "TS-Apprentice"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "section-01-primitive-types",
+  "moduleId": "module-01-basics",
+  "order": 1,
+  "title": "Primitive Types & Memory Model",
+  "slug": "primitive-types",
+  "description": "Understand TypeScript's 7 fundamental primitives: string, number, boolean, symbol, bigint, null, and undefined — and how static types model JavaScript runtime values.",
+  "difficulty": "Beginner",
+  "xp": 150,
+  "durationMinutes": 12,
+  "status": "published",
+  "features": {
+    "hasExplanation": true,
+    "hasVideo": true,
+    "hasGame": true
+  }
+}

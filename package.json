@@ -1,0 +1,21 @@
+{
+  "name": "learning-typescript",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive TypeScript Learning Platform with Vite, Express, Remotion & Games",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n \"SERVER,CLIENT\" -c \"blue,magenta\" \"npm run dev:server\" \"npm run dev:web\"",
+    "dev:web": "npm run dev --workspace=@ts-learn/web",
+    "dev:server": "npm run dev --workspace=@ts-learn/server",
+    "build": "npm run build --workspaces --if-present",
+    "scaffold": "node ./scripts/scaffold-section.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
