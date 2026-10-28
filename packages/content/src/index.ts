@@ -38,13 +38,22 @@ import {
   genericsOutroVideo,
   genericsVideoConfig
 } from './modules/module-04-generics/section-01-generics/video-config';
+import module5Meta from './modules/module-05-utility-types/module.json';
+import section6Meta from './modules/module-05-utility-types/section-01-utility-types/section.json';
+import { utilityTypesExplanation } from './modules/module-05-utility-types/section-01-utility-types/explanation';
+import {
+  utilityTypesIntroVideo,
+  utilityTypesOutroVideo,
+  utilityTypesVideoConfig
+} from './modules/module-05-utility-types/section-01-utility-types/video-config';
 
 // Modules registry
 export const modulesList: ModuleMetadata[] = [
   module1Meta as ModuleMetadata,
   module2Meta as ModuleMetadata,
   module3Meta as ModuleMetadata,
-  module4Meta as ModuleMetadata
+  module4Meta as ModuleMetadata,
+  module5Meta as ModuleMetadata
 ];
 
 // Content registry keyed by "sectionId"
@@ -118,6 +127,20 @@ export const sectionContentRegistry: Record<string, SectionContent> = {
     outroVideo: genericsOutroVideo,
     explanation: genericsExplanation,
     videoConfig: genericsVideoConfig
+  },
+  'section-01-utility-types': {
+    meta: {
+      ...section6Meta,
+      features: {
+        ...section6Meta.features,
+        hasIntroVideo: true,
+        hasOutroVideo: true
+      }
+    } as any,
+    introVideo: utilityTypesIntroVideo,
+    outroVideo: utilityTypesOutroVideo,
+    explanation: utilityTypesExplanation,
+    videoConfig: utilityTypesVideoConfig
   }
 };
 
@@ -139,3 +162,5 @@ export * from './modules/module-03-unions-intersections/section-01-unions-inters
 export * from './modules/module-03-unions-intersections/section-01-unions-intersections/video-config';
 export * from './modules/module-04-generics/section-01-generics/explanation';
 export * from './modules/module-04-generics/section-01-generics/video-config';
+export * from './modules/module-05-utility-types/section-01-utility-types/explanation';
+export * from './modules/module-05-utility-types/section-01-utility-types/video-config';

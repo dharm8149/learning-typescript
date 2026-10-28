@@ -1,0 +1,34 @@
+{
+  "id": "section-01-utility-types",
+  "moduleId": "module-05-utility-types",
+  "order": 1,
+  "title": "Utility Types",
+  "slug": "utility-types",
+  "description": "Master TypeScript's built-in utility types to transform and compose types with zero boilerplate.",
+  "features": {
+    "hasExplanation": true,
+    "hasGame": true,
+    "hasIntroVideo": true,
+    "hasOutroVideo": true
+  },
+  "estimatedDurationMinutes": 35,
+  "prerequisites": [],
+  "keyConcepts": [
+    "Partial",
+    "Required",
+    "Pick",
+    "Omit",
+    "Record",
+    "Readonly",
+    "Mapped types",
+    "Utility type composition"
+  ],
+  "codeExamples": [
+    "type UserPartial = Partial<User>",
+    "type RequiredUser = Required<User>",
+    "type UserInfo = Pick<User, 'id' | 'name'>",
+    "type UserRecord = Record<string, User>",
+    "type ReadOnlyUser = Readonly<User>",
+    "type UserWithoutPassword = Omit<User, 'password'>"
+  ]
+}
