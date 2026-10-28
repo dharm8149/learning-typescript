@@ -1,0 +1,17 @@
+{
+  "id": "section-02-type-annotations",
+  "moduleId": "module-01-basics",
+  "order": 2,
+  "title": "Type Annotations vs Type Inference",
+  "slug": "type-annotations",
+  "description": "Learn when to write explicit type annotations and when TypeScript's inference engine handles it for you — and the critical cases where inference fails and annotations become mandatory.",
+  "difficulty": "Beginner",
+  "xp": 175,
+  "durationMinutes": 14,
+  "status": "published",
+  "features": {
+    "hasExplanation": true,
+    "hasVideo": true,
+    "hasGame": true
+  }
+}

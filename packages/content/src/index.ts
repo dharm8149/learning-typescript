@@ -7,6 +7,13 @@ import {
   primitiveTypesOutroVideo,
   primitiveTypesVideoConfig
 } from './modules/module-01-basics/section-01-primitive-types/video-config';
+import section2Meta from './modules/module-01-basics/section-02-type-annotations/section.json';
+import { typeAnnotationsExplanation } from './modules/module-01-basics/section-02-type-annotations/explanation';
+import {
+  typeAnnotationsIntroVideo,
+  typeAnnotationsOutroVideo,
+  typeAnnotationsVideoConfig
+} from './modules/module-01-basics/section-02-type-annotations/video-config';
 
 // Modules registry
 export const modulesList: ModuleMetadata[] = [
@@ -28,6 +35,20 @@ export const sectionContentRegistry: Record<string, SectionContent> = {
     outroVideo: primitiveTypesOutroVideo,
     explanation: primitiveTypesExplanation,
     videoConfig: primitiveTypesVideoConfig
+  },
+  'section-02-type-annotations': {
+    meta: {
+      ...section2Meta,
+      features: {
+        ...section2Meta.features,
+        hasIntroVideo: true,
+        hasOutroVideo: true
+      }
+    } as any,
+    introVideo: typeAnnotationsIntroVideo,
+    outroVideo: typeAnnotationsOutroVideo,
+    explanation: typeAnnotationsExplanation,
+    videoConfig: typeAnnotationsVideoConfig
   }
 };
 
@@ -41,3 +62,5 @@ export function getSectionContent(sectionId: string): SectionContent | undefined
 
 export * from './modules/module-01-basics/section-01-primitive-types/explanation';
 export * from './modules/module-01-basics/section-01-primitive-types/video-config';
+export * from './modules/module-01-basics/section-02-type-annotations/explanation';
+export * from './modules/module-01-basics/section-02-type-annotations/video-config';
