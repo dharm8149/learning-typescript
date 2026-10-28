@@ -8,6 +8,9 @@ import { OutroTypeAnnotations } from './compositions/annotations/OutroTypeAnnota
 import { IntroInterfaceStory } from './compositions/interfaces/IntroInterfaceStory';
 import { InterfaceExplainer } from './compositions/interfaces/InterfaceExplainer';
 import { OutroInterfaceMastery } from './compositions/interfaces/OutroInterfaceMastery';
+import { IntroUnionStory } from './compositions/unions/IntroUnionStory';
+import { UnionExplainer } from './compositions/unions/UnionExplainer';
+import { OutroUnionMastery } from './compositions/unions/OutroUnionMastery';
 
 export * from './Root';
 export * from './compositions/primitives/PrimitivesExplainer';
@@ -19,6 +22,9 @@ export * from './compositions/annotations/OutroTypeAnnotations';
 export * from './compositions/interfaces/IntroInterfaceStory';
 export * from './compositions/interfaces/InterfaceExplainer';
 export * from './compositions/interfaces/OutroInterfaceMastery';
+export * from './compositions/unions/IntroUnionStory';
+export * from './compositions/unions/UnionExplainer';
+export * from './compositions/unions/OutroUnionMastery';
 export * from './components/CodeWindow';
 export * from './helpers/soundEffects';
 
@@ -32,7 +38,10 @@ export const compositionRegistry: Record<string, React.FC> = {
   OutroTypeAnnotations,
   IntroInterfaceStory,
   InterfaceExplainer,
-  OutroInterfaceMastery
+  OutroInterfaceMastery,
+  IntroUnionStory,
+  UnionExplainer,
+  OutroUnionMastery
 };
 
 export function getComposition(id: string): React.FC | undefined {

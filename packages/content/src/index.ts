@@ -22,11 +22,20 @@ import {
   interfacesOutroVideo,
   interfacesVideoConfig
 } from './modules/module-02-interfaces/section-01-interfaces-aliases/video-config';
+import module3Meta from './modules/module-03-unions-intersections/module.json';
+import section4Meta from './modules/module-03-unions-intersections/section-01-unions-intersections/section.json';
+import { unionsExplanation } from './modules/module-03-unions-intersections/section-01-unions-intersections/explanation';
+import {
+  unionsIntroVideo,
+  unionsOutroVideo,
+  unionsVideoConfig
+} from './modules/module-03-unions-intersections/section-01-unions-intersections/video-config';
 
 // Modules registry
 export const modulesList: ModuleMetadata[] = [
   module1Meta as ModuleMetadata,
-  module2Meta as ModuleMetadata
+  module2Meta as ModuleMetadata,
+  module3Meta as ModuleMetadata
 ];
 
 // Content registry keyed by "sectionId"
@@ -72,6 +81,20 @@ export const sectionContentRegistry: Record<string, SectionContent> = {
     outroVideo: interfacesOutroVideo,
     explanation: interfacesExplanation,
     videoConfig: interfacesVideoConfig
+  },
+  'section-01-unions-intersections': {
+    meta: {
+      ...section4Meta,
+      features: {
+        ...section4Meta.features,
+        hasIntroVideo: true,
+        hasOutroVideo: true
+      }
+    } as any,
+    introVideo: unionsIntroVideo,
+    outroVideo: unionsOutroVideo,
+    explanation: unionsExplanation,
+    videoConfig: unionsVideoConfig
   }
 };
 
@@ -89,3 +112,5 @@ export * from './modules/module-01-basics/section-02-type-annotations/explanatio
 export * from './modules/module-01-basics/section-02-type-annotations/video-config';
 export * from './modules/module-02-interfaces/section-01-interfaces-aliases/explanation';
 export * from './modules/module-02-interfaces/section-01-interfaces-aliases/video-config';
+export * from './modules/module-03-unions-intersections/section-01-unions-intersections/explanation';
+export * from './modules/module-03-unions-intersections/section-01-unions-intersections/video-config';

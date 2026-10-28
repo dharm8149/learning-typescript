@@ -1,0 +1,30 @@
+{
+  "id": "section-01-unions-intersections",
+  "moduleId": "module-03-unions-intersections",
+  "order": 1,
+  "title": "Unions and Intersections",
+  "slug": "unions-intersections",
+  "description": "Master the pipe and ampersand operators to combine, split, and compose types in TypeScript.",
+  "features": {
+    "hasExplanation": true,
+    "hasGame": true,
+    "hasIntroVideo": true,
+    "hasOutroVideo": true
+  },
+  "estimatedDurationMinutes": 30,
+  "prerequisites": [],
+  "keyConcepts": [
+    "union types",
+    "intersection types",
+    "discriminated unions",
+    "type narrowing",
+    "optional chaining",
+    "API response patterns"
+  ],
+  "codeExamples": [
+    "type Result = string | number",
+    "type A & B = { ... }",
+    "interface Success { status: 'ok'; data: T }",
+    "interface Failure { status: 'error'; message: string }"
+  ]
+}
